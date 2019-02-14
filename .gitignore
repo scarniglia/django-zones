@@ -1,0 +1,6 @@
+*.pyc
+.idea
+/geodjango/
+/venv/
+manage.py
+readme.txt
