@@ -1,7 +1,5 @@
 # Welcome to Zones
 
-By Santi Carniglia scarniglia@gmail.com.
-
 ## Example installation on Debian 9.7
 
 ### Required packages
