@@ -1,4 +1,3 @@
-# from rest_framework import permissions
 from rest_framework import viewsets
 from django.contrib.gis.geos import GEOSGeometry
 from rest_framework_gis.pagination import GeoJsonPagination
@@ -13,17 +12,16 @@ from zones.serializers import (
 class ProviderViewSet(viewsets.ModelViewSet):
     """
     This viewset provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions for Person
+    `update` and `destroy` actions for Provider
     """
     queryset = Provider.objects.all()
     serializer_class = ProviderSerializer
-    pagination_class = GeoJsonPagination
 
 
 class ServiceAreaViewSet(viewsets.ModelViewSet):
     """
     This viewset provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions for Person
+    `update` and `destroy` actions for ServiceArea
     """
     queryset = ServiceArea.objects.all()
     serializer_class = ServiceAreaSerializer
@@ -31,15 +29,16 @@ class ServiceAreaViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
+        Optionally restricts the returned service areas,
+        by filtering against a coordinate point query parameter in the URL.
         """
         queryset = self.queryset
         latitude = self.request.query_params.get('latitude', None)
         longitude = self.request.query_params.get('longitude', None)
         if latitude is not None and longitude is not None:
             try:
-                point = GEOSGeometry('POINT({} {})'.format(str(latitude), str(longitude)))
+                point = GEOSGeometry('POINT({} {})'.format(str(latitude),
+                                                           str(longitude)))
                 if latitude is not None and longitude is not None:
                     queryset = queryset.filter(poly__contains=point)
                 return queryset
@@ -47,4 +46,3 @@ class ServiceAreaViewSet(viewsets.ModelViewSet):
                 return queryset.none()
 
         return queryset
-

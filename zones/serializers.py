@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from .models import Provider, ServiceArea
 
@@ -9,7 +9,7 @@ class ProviderSerializer(serializers.ModelSerializer):
     areas = serializers.HyperlinkedRelatedField(
         many=True,
         view_name='servicearea-detail',
-        queryset=ServiceArea.objects.all(),
+        read_only=True,
     )
 
     class Meta:
